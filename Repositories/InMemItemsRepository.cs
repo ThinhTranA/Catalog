@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Catalog.Entities;
 
-namespace Catalog
+namespace Catalog.Repositories
 {
-	public class InMemItemsRepository
+
+	public class InMemItemsRepository : IInMemItemsRepository
 	{
 		private readonly List<Item> items = new()
 		{
@@ -19,9 +20,9 @@ namespace Catalog
 			return items;
 		}
 
-        public Item GetItem(Guid id)
-        {
-            return items.Where(item => item.Id == id).SingleOrDefault();
-        }
+		public Item GetItem(Guid id)
+		{
+			return items.Where(item => item.Id == id).SingleOrDefault();
+		}
 	}
 }
