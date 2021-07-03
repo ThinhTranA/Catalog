@@ -5,7 +5,7 @@ namespace Catalog
 {
 	public static class Extensions
 	{
-		public static ItemDto asDto(this Item item)
+		public static ItemDto AsDto(this Item item)
 		{
 			return new ItemDto
 			{

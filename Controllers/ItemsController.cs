@@ -12,9 +12,9 @@ namespace Catalog.Controllers
 	[Route("items")]
 	public class ItemsController : ControllerBase
 	{
-		private readonly IInMemItemsRepository repository;
+		private readonly IItemsRepository repository;
 
-		public ItemsController(InMemItemsRepository repository)
+		public ItemsController(IItemsRepository repository)
 		{
 			this.repository = repository;
 		}
@@ -24,7 +24,7 @@ namespace Catalog.Controllers
 		[HttpGet]
 		public IEnumerable<ItemDto> GetItems()
 		{
-			var items = repository.GetItems().Select(item => item.asDto());
+			var items = repository.GetItems().Select(item => item.AsDto());
 			return items;
 		}
 
@@ -39,7 +39,59 @@ namespace Catalog.Controllers
 				return NotFound();
 			}
 
-			return item.asDto();
+			return item.AsDto();
+		}
+
+		[HttpPost]
+		public ActionResult<ItemDto> CreateItem(CreateItemDto itemDto)
+		{
+			Item item = new()
+			{
+				Id = Guid.NewGuid(),
+				Name = itemDto.Name,
+				Price = itemDto.Price,
+				CreatedDate = DateTimeOffset.UtcNow
+			};
+
+			repository.CreateItem(item);
+
+			return CreatedAtAction(nameof(GetItem), new {id = item.Id}, item.AsDto());
+		}
+		
+		[HttpPut("{id}")]
+		public ActionResult UpdateItem(Guid id,UpdateItemDto itemDto)
+		{
+			var existingItem = repository.GetItem(id);
+
+			if (existingItem is null)
+			{
+				return NotFound();
+			}
+
+			Item updatedItem = existingItem with
+			{
+				Name = itemDto.Name,
+				Price = itemDto.Price
+			};
+			
+			repository.UpdateItem(updatedItem);
+
+			return NoContent();
+		}
+
+		[HttpDelete("{id}")]
+		public ActionResult DeleteItem(Guid id)
+		{
+			var exitingItem = repository.GetItem(id);
+
+			if (exitingItem is null)
+			{
+				return NotFound();
+			}
+			
+			repository.DeleteItem(id);
+
+			return NoContent();
 		}
 	}
 }
