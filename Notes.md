@@ -69,6 +69,51 @@ dotnet user-secrets set MongoDbSettings:Password Pass#word1
 Password should now be picked up with just a field from `MongoDbSettings.cs` class 
 without needing it in the `appsettings.json`    
 
+### Build Docker image
+name of `catalog` with tag `v1` and `.`(current directory)		
+
+`
+docker build -t catalog:v1 .
+`
+List created image: `docker images`
+
+
+### Create docker network
+Create a network with name `catalognetwork`
+`
+docker network create catalognetwork
+`   	
+List: 
+`
+docker network ls
+`	
+Join the mongo container with catalog container in the same network:    
+`
+docker stop mongo
+`   
+`
+docker run -d --rm --name mongo -p 27017:27017 
+-v mongodbdata:/data/db 
+-e MONGO_INITDB_ROOT_USERNAME=mongoadmin 
+-e MONGO_INITDB_ROOT_PASSWORD=Pass#word1 
+--network=catalognetwork
+mongo
+`   
+#### Run our image
+`
+docker run -it --rm -p 8080:80 
+-e MongoDbSettings:Host=mongo 
+-e MongoDbSettings:Password=Pass#word1
+--network=catalognetwork
+catalog:v1
+`   
+keep our terminal connect to the process `-it` (interactive)        
+delete our container when we stop it `-rm`    
+map port 8080 from local machine into port 80 (asp.netcore port) the container  
+`-e` enviroment variable in docker to overwrite appsettings.json with enviroment variable
+net work is `catalognetwork` and image is `catalog` with `v1` tag
+
+
 
 
 
