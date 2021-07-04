@@ -43,6 +43,27 @@ mongo
 `   
 (https://stackoverflow.com/questions/42912755/how-to-create-a-db-for-mongodb-container-on-start-up)
     
+Notes: occasionally already running mongo (no auth) will not stop, and will require a manual process kill
+for the old instance to stop. To check
+`
+pgrep mongo
+`
+if there is any number (eg: 503) meaning the old one still running, need to kill it
+`kill 503`
+    
+
+### Dotnet secret manager
+Init:   
+`
+dotnet user-secrets init
+`   
+Set password:   
+`
+dotnet user-secrets set MongoDbSettings:Password Pass#word1
+`   
+Password should now be picked up with just a field from `MongoDbSettings.cs` class 
+without needing it in the `appsettings.json`    
+
 
 
 
