@@ -42,6 +42,11 @@ docker run -d --rm --name mongo -p 27017:27017 -v mongodbdata:/data/db
 mongo
 `   
 (https://stackoverflow.com/questions/42912755/how-to-create-a-db-for-mongodb-container-on-start-up)
+
+Stop running container:
+`
+docker stop mongo
+`   
     
 Notes: occasionally already running mongo (no auth) will not stop, and will require a manual process kill
 for the old instance to stop. To check
