@@ -6,6 +6,7 @@ using Catalog.Api.Dtos;
 using Catalog.Api.Entities;
 using Catalog.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Catalog.Api.Controllers
 {
@@ -15,9 +16,12 @@ namespace Catalog.Api.Controllers
 	{
 		private readonly IItemsRepository repository;
 
-		public ItemsController(IItemsRepository repository)
+		private readonly ILogger<ItemsController> logger;
+
+		public ItemsController(IItemsRepository repository, ILogger<ItemsController> logger)
 		{
 			this.repository = repository;
+			this.logger = logger;
 		}
 
 
