@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Entities;
+using Catalog.Api.Entities;
 
-namespace Catalog.Repositories
+namespace Catalog.Api.Repositories
 {
 
 	public class InMemItemsRepository : IItemsRepository
@@ -24,7 +24,7 @@ namespace Catalog.Repositories
 		public async Task<Item> GetItemAsync(Guid id)
 		{
 			var item = items.Where(item => item.Id == id).SingleOrDefault();
-		 	return await Task.FromResult(item);
+			return await Task.FromResult(item);
 		}
 
 		public async Task CreateItemAsync(Item item)

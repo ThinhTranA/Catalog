@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Dtos;
-using Catalog.Entities;
-using Catalog.Repositories;
+using Catalog.Api.Dtos;
+using Catalog.Api.Entities;
+using Catalog.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Controllers
+namespace Catalog.Api.Controllers
 {
 	[ApiController]
 	[Route("items")]
@@ -57,14 +57,14 @@ namespace Catalog.Controllers
 
 			await repository.CreateItemAsync(item);
 
-			return CreatedAtAction("GetItem", new {id = item.Id}, item.AsDto());
+			return CreatedAtAction("GetItem", new { id = item.Id }, item.AsDto());
 			//Since GetItemAsync will be trimmed to GetItem controller and Rider doesn't see it
 			//return CreatedAtAction(nameof(GetItemAsync), new {id = item.Id}, item.AsDto());
 			// options.SuppressAsyncSuffixInActionNames = false; is another option
 		}
-		
+
 		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateItemAsync(Guid id,UpdateItemDto itemDto)
+		public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDto itemDto)
 		{
 			var existingItem = await repository.GetItemAsync(id);
 
@@ -78,8 +78,8 @@ namespace Catalog.Controllers
 				Name = itemDto.Name,
 				Price = itemDto.Price
 			};
-			
-		 	await repository.UpdateItemAsync(updatedItem);
+
+			await repository.UpdateItemAsync(updatedItem);
 
 			return NoContent();
 		}
@@ -93,7 +93,7 @@ namespace Catalog.Controllers
 			{
 				return NotFound();
 			}
-			
+
 			await repository.DeleteItemAsync(id);
 
 			return NoContent();
