@@ -102,5 +102,18 @@ namespace Catalog.Api.Controllers
 
 			return NoContent();
 		}
+
+		[HttpGet]
+		public async Task<IEnumerable<ItemDto>> GetItemsAsync(string name = null)
+		{
+			var items = (await repository.GetItemsAsync())
+				.Select(item => item.AsDto());
+
+			if (!string.IsNullOrWhiteSpace(name))
+			{
+				items = items.Where(item => item.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+			}
+			return items;
+		}
 	}
 }
