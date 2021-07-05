@@ -128,14 +128,28 @@ kubectl create secret generic catalog-secrets --from-literal=mongodb-password='P
 
 Deploy kubectly config/service	
 
+Catalog API service	
+
 `
 kubectl apply -f ./kubernetes/catalog.yaml 
+`	
+
+Mongo DB	
+
 `
+kubectl apply -f ./kubernetes/mongodb.yaml 
+`
+
 
 Get a list of all created deployments	
 
 `
 kubectl get deployments
+`
+
+Get a list of all statefulsets (Eg: Database)	
+`
+ kubectl get statefulsets
 `
 
 Get a list of pods	
@@ -155,6 +169,16 @@ Get log from the pod:
 kubectl logs catalog-deployment-65fb8b4c4b-x7rqn
 `
 
+Delete pod (to test self healing/restart, after delete new pod with new ID should be created for stateless pod, stateful pod should be created with the same ID)	
+
+`
+kubectl delete pod catalog-deployment-65fb8b4c4b-x7rqn
+`
+
+To scale deployment
+`
+kubectl scale deployments/catalog-deployment --replicas=3
+`
 
 
 
