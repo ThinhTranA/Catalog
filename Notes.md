@@ -115,6 +115,45 @@ net work is `catalognetwork` and image is `catalog` with `v1` tag
 
 
 
+## Kubernetes
+Check current node
+`
+kubectl config current-context
+`	
+Create secret in K8s (to be feed into an enviroment variable in K8s yaml)
+
+`
+kubectl create secret generic catalog-secrets --from-literal=mongodb-password='Pass#word1'
+`
+
+Deploy kubectly config/service	
+
+`
+kubectl apply -f ./kubernetes/catalog.yaml 
+`
+
+Get a list of all created deployments	
+
+`
+kubectl get deployments
+`
+
+Get a list of pods	
+
+`
+kubectl get pods
+`	
+Output example: 
+`
+NAME                                  READY   STATUS    RESTARTS   AGE
+catalog-deployment-65fb8b4c4b-x7rqn   0/1     Running   0          3m54s
+`
+
+Get log from the pod:	
+
+`
+kubectl logs catalog-deployment-65fb8b4c4b-x7rqn
+`
 
 
 
